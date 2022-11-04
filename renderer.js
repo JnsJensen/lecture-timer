@@ -33,9 +33,10 @@ class Day {
 
 
 const start_date = new Date()
+let start_of_day = new Date()
+start_of_day.setHours(0, 0, 0, 0)
 const start_time = start_date.getTime()
 const day = start_date.getDay()
-let timer = 0
 let countdown = 0
 
 // const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -56,7 +57,7 @@ const schedule = [
     new Day("Tuesday", [new Lecture("Advanced Signal Processing", 8, 3), new Lecture("Wireless Sensor Networks", 12, 3)]),
     new Day("Wednesday", [new Lecture("Requirements and Specification for Software Systems", 8, 2)]),
     new Day("Thursday", [new Lecture("Advanced Signal Processing", 8, 13)]),
-    new Day("Friday", [new Lecture("Deep Learning", 8, 3)]),
+    new Day("Friday", [new Lecture("Deep Learning", 20, 3)]),
     new Day("Saturday", [new Lecture("Advanced Signal Processing", 8, 3), new Lecture("Wireless Sensor Networks", 12, 3)])
 ]
 
@@ -77,41 +78,74 @@ const hr_to_ms = (hr) => {
 const update = () => {
     const now_date = new Date()
     const now_time = now_date.getTime()
+    const ms_from_start_of_day = now_time - start_of_day.getTime()
 
-    // update timer
-    timer = now_time - start_time
-    replace_text('timer', Math.floor(timer / 1000))
-    console.log("now_time: " + now_time)
-    console.log("start_time ms: " + start_date.getHours())
+
+    // update dom element date with todays date
+    replace_text('date', now_date.toLocaleDateString("en-GB"))
+    replace_text('time', now_date.toTimeString().slice(0, 8))
 
     // set text in the DOM id 'lecture' to the current lecture
-    let current_lecture = null
+    let current_lecture_idx = null
     for (let i = 0; i < schedule[day].lectures.length; i++) {
         const start_time_lecture = hr_to_ms(schedule[day].lectures[i].start_time)
         const runtime_lecture = hr_to_ms(schedule[day].lectures[i].expected_runtime)
         const end_time_lecture = start_time_lecture + runtime_lecture
         
         // debugging
-        console.log("start_time_lecture: " + start_time)
-        console.log("runtime_lecture: " + runtime_lecture)
-        console.log("endtime_lecture: " + end_time_lecture)
+        // console.log("start_time_lecture: " + start_time_lecture)
+        // console.log("runtime_lecture: " + runtime_lecture)
+        // console.log("endtime_lecture: " + end_time_lecture)
 
-        console.log("over start time: " + (now_time > start_time_lecture))
-        console.log("under end time: " + (now_time < end_time_lecture))
-        console.log("now_time - end_time_lecture: " + (now_time - end_time_lecture))
+        // console.log("over start time: " + (ms_from_start_of_day > start_time_lecture))
+        // console.log("under end time: " + (ms_from_start_of_day < end_time_lecture))
+        // console.log("ms_from_start_of_day - end_time_lecture: " + (ms_from_start_of_day - end_time_lecture))
 
-        if (now_time > start_time_lecture &&
-            now_time < end_time_lecture) {
-            current_lecture = i
-            console.log("FOUND LECTURE = " + current_lecture)
+        // console.log("start_of_day: " + start_of_day.getTime())
+        // console.log("now_time - start_of_day: " + ms_from_start_of_day)
+
+        if (ms_from_start_of_day > start_time_lecture &&
+            ms_from_start_of_day < end_time_lecture) {
+            current_lecture_idx = i
+            // console.log("FOUND LECTURE = " + current_lecture_idx)
             break
         }
     }
-    if (current_lecture) {
-        replace_text('lecture', schedule[day].lectures[current_lecture].name)
+    // console.log("FOUND LECTURE = " + current_lecture)
+    current_lecture = current_lecture_idx !== null ? schedule[day].lectures[current_lecture_idx] : null
+    if (current_lecture !== null) {
+        replace_text('lecture', current_lecture.name)
+
+        let start_of_lecture_date = new Date()
+        start_of_lecture_date.setHours(current_lecture.start_time, 0, 0, 0)
+
+        // split timestamp from timer time string
+        let timer_date = new Date(now_date - start_of_lecture_date - hr_to_ms(1))
+        // print hours, minutes and seconds in dom timer
+        replace_text('timer', timer_date.toTimeString().slice(0, 8))
+
+        console.log("start_of_lecture_date: " + start_of_lecture_date)
+        console.log("now_date: " + now_date)
+        console.log("timer: " + timer_date)
+
+        // update expected runtime
+        const expected_runtime_date = new Date(hr_to_ms((current_lecture.expected_runtime) * 0.75 - 1))
+        replace_text('expected_time_modules', current_lecture.expected_runtime)
+        replace_text('expected_time_total', expected_runtime_date.toTimeString().slice(0, 8))
+
+        // expected end time of lecture
+        let expected_end_time_date = new Date()
+        expected_end_time_date.setHours(current_lecture.start_time + current_lecture.expected_runtime, 0, 0, 0)
+        // console.log("expected_end_time_date: " + expected_end_time_date)
+        replace_text('expected_end', expected_end_time_date.toTimeString().slice(0, 8))
+        // countdown from start of lecture to expected end time
+        let expected_end_time_countdown_date = new Date(expected_end_time_date - now_date - hr_to_ms(1))
+        replace_text('expected_countdown', expected_end_time_countdown_date.toTimeString().slice(0, 8))
     } else {
         replace_text('lecture', 'No lecture')
+        replace_text('timer', '00:00:00')
     }
+
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -119,6 +153,6 @@ window.addEventListener('DOMContentLoaded', () => {
     replace_text('day', schedule[day].name)
 
     
-
+    update()
     setInterval(update, 1000)
 })

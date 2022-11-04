@@ -5,20 +5,48 @@
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
     <link href="./styles.css" rel="stylesheet">
-    <title>Hello World!</title>
+    <title>Lecture Timer</title>
   </head>
   <body>
-    <span id="countdown">0</span>
-    <span id="day">Day of the week</span>
-    <span id="timer">0</span>
-    <span id="lecture">Lecture name</span>
+    <h1 id="lecture">Lecture name</h1>
     </br>
-    <span>
-      Expected lecture runtime: 
-      <span id="expected_time_modules">0</span>
-       x 45 m = 
-      <span id="expected_time_total">0</span>
-    </span>
+    <span id="day">Day</span>
+    <span id="date">Date</span>
+    <span id="time">Time</span>
+    </br>
+    <span>Time since lecture start: </span>
+    <span id="timer">00:00:00</span>
+    </br>
+    </br>
+    <span>Expected lecture runtime: </span>
+    <span id="expected_time_modules">0</span>
+    <span> x 45 m = </span>
+    <span id="expected_time_total">0</span>
+    </br>
+    <span>Expected end: </span>
+    <span id="expected_end">00:00:00</span>
+    </br>
+    <span>Countdown: </span>
+    <span id="expected_countdown">00:00:00</span>
+    </br>
+    </br>
+    <span>Slide total: </span>
+    <input type="number" id="total_slide" name="Total slides" min="0" value="0">
+    </br>
+    <span>Expected slide: </span>
+    <span id="expected_slide">0</span>
+    </br>
+    <span>Actual slide: </span>
+    <input type="number" id="actual_slide" name="Actual slides" min="0" value="0">
+    </br>
+    </br>
+    <span>Predicted end: </span>
+    <span id="predicted_end">00:00:00</span>
+    </br>
+    <span>Countdown: </span>
+    <span id="predicted_countdown">00:00:00</span>
+    </br>
+    
 
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
