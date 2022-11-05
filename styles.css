@@ -8,6 +8,7 @@
 }
 body {
     padding: 10px;
+    -webkit-app-region: drag;
 }
 h1 {
     min-height: 40px;
@@ -17,6 +18,7 @@ h1 {
     display: flex;
     flex-direction: row;
     align-items: center;
+    height: 20px;
 }
 
 #status_icon {
@@ -34,26 +36,37 @@ button {
     border-radius: 9999px;
     transition: 200ms;
 }
-button:hover {
-    background-color: grey;
-    color: white;
-}
-button:active {
-    background: black;
-}
 #btn_break {
     min-width: 125px;
     min-height: 40px;
-    /* box-shadow:  2px 2px 4px 1px rgba(0, 0, 0, 0.2),
-                -2px -2px 4px 1px rgba(255, 255, 255, 0.8); */
-    background: linear-gradient(145deg, #cacaca, #f0f0f0);
-    box-shadow:  2px 2px 4px #bebebe,
-                -2px -2px 4px #ffffff;
-    /* border: solid 2px white; */
 }
 button.btn_small {
     padding: 2.5px;
     width: 25px;
+}
+.light_neumorph_into {
+    background: #e0e0e0;
+    box-shadow: inset 2px 2px 4px #bebebe,
+                inset -2px -2px 4px #ffffff;
+}
+.light_neumorph_out {
+    /* background: linear-gradient(145deg, #cacaca, #f0f0f0); */
+    background: linear-gradient(145deg, #f0f0f0, #cacaca);
+    box-shadow:  2px 2px 4px #bebebe,
+                -2px -2px 4px #ffffff;
+}
+.light_neumorph_out:hover {
+    box-shadow:  3px 3px 6px #bebebe,
+                -3px -3px 6px #ffffff;
+}
+.light_neumorph_out:active {
+    box-shadow:  1px 1px 2px #bebebe,
+                -1px -1px 2px #ffffff;
+}
+.dark_neumorph_out {
+    background: linear-gradient(145deg, #282828, #3a3a3a);
+    box-shadow:  2px 2px 4px #bebebe,
+                -2px -2px 4px #ffffff;
 }
 
 input {

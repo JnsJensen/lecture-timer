@@ -61,7 +61,7 @@ const schedule = [
     new Day("Wednesday", [new Lecture("Requirements and Specification for Software Systems", 8, 2)]),
     new Day("Thursday", [new Lecture("Advanced Signal Processing", 8, 13)]),
     new Day("Friday", [new Lecture("Deep Learning", 20, 3)]),
-    new Day("Saturday", [new Lecture("Advanced Signal Processing", 8, 4), new Lecture("Wireless Sensor Networks", 12, 4)])
+    new Day("Saturday", [new Lecture("Advanced Signal Processing", 8, 4), new Lecture("Wireless Sensor Networks", 17, 4)])
 ]
 
 const replace_text = (selector, text) => {
