@@ -8,65 +8,73 @@
     <title>Lecture Timer</title>
   </head>
   <body>
-    <h1 id="lecture"></h1>
-    <div id="status_container">
-      <div id="status_icon"></div>
-      <span id="lecture_status">Lecture in Progress</span>
-    </div>
-
+    <div id="titlebar"></div>
+    <div id="content">
+      <h1 id="lecture"></h1>
+      <div id="status_container">
+        <div id="status_icon"></div>
+        <span id="lecture_status">Lecture in Progress</span>
+      </div>
+  
+      </br>
+      <span id="day">Day</span>
+      <span id="date">Date</span>
+      <span id="time">Time</span>
+  
+      
     </br>
-    <span id="day">Day</span>
-    <span id="date">Date</span>
-    <span id="time">Time</span>
-
+    <span>Expected end: </span>
+    <span id="expected_end_date">00/00/0000</span>
+    <span id="expected_end">00:00:00</span>
+    
     </br>
     <span>Time since lecture start: </span>
     <span id="timer">00:00:00</span>
-
     </br>
-    <span>Expected end: </span>
-    <span id="expected_end">00:00:00</span>
-    </br>
-
-    </br>
-    <span>Expected lecture runtime: </span>
-    <span id="expected_time_modules">0</span>
-    <span> x 45 m = </span>
-    <span id="expected_time_total">0</span>
-
-    </br>
-    <span>Countdown: </span>
-    <span id="expected_countdown">00:00:00</span>
-    </br>
-
-    </br>
-    <span>Slide total: </span>
-    <input type="number" id="total_slide" class="light_neumorph_into" name="Total slides" min="0" value="50">
-    <button class="btn_small light_neumorph_out" id="slide_increment">+</button>
-    <button class="btn_small light_neumorph_out" id="slide_decrement">-</button>
-
-    </br>
-    <span>Expected slide: </span>
-    <span id="expected_slide">0</span>
-
-    </br>
-    <span>Actual slide: </span>
-    <input type="number" id="actual_slide" class="light_neumorph_into" name="Actual slides" min="0" value="0">
-    </br>
-
-    </br>
-    <span>Predicted end: </span>
-    <span id="predicted_end">00:00:00</span>
-
-    </br>
-    <span>Countdown: </span>
-    <span id="predicted_countdown">00:00:00</span>
-    </br>
-
-    </br>
-    <button id="btn_break" class="light_neumorph_out">Start Break</button>
-
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
+  
+      </br>
+      <span>Expected lecture runtime: </span>
+      <span id="expected_time_modules">0</span>
+      <span> x 45 m = </span>
+      <span id="expected_time_total">0</span>
+  
+      </br>
+      <span>Lecture runtime: </span>
+      <span id="lecture_runtime">00:00:00</span>
+      </br>
+      <span>Countdown: </span>
+      <span id="expected_countdown">00:00:00</span>
+      </br>
+  
+      </br>
+      <span>Slide total: </span>
+      <input type="number" id="total_slide" class="light_neumorph_into" name="Total slides" min="0" value="50">
+      <button class="btn_small light_neumorph_out" id="slide_increment">+</button>
+      <button class="btn_small light_neumorph_out" id="slide_decrement">-</button>
+  
+      </br>
+      <span>Expected slide: </span>
+      <span id="expected_slide">0</span>
+  
+      </br>
+      <span>Actual slide: </span>
+      <input type="number" id="actual_slide" class="light_neumorph_into" name="Actual slides" min="0" value="0">
+      </br>
+  
+      </br>
+      <span>Predicted end: </span>
+      <span id="predicted_end">00:00:00</span>
+  
+      </br>
+      <span>Countdown: </span>
+      <span id="predicted_countdown">00:00:00</span>
+      </br>
+  
+      </br>
+      <button id="btn_break" class="light_neumorph_out">Start Break</button>
+  
+      <!-- You can also require other files to run in this process -->
+      <script src="./renderer.js"></script>
+    </div>
   </body>
 </html>

@@ -2,14 +2,44 @@
 
 /* Add styles here to customize the appearance of your app */
 
+@property --nm-light-default {
+    syntax: '<color>';
+    initial-value: #f0f0f0;
+    inherits: false;
+}
+
+@property --nm-light-shadow {
+    syntax: '<color>';
+    initial-value: #cacaca;
+    inherits: false;
+}
+
 * {
     font-family: 'JetBrainsMono NF', 'Courier New', Courier, monospace;
-    background-color: #e0e0e0;
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    /* font-family: 'Roboto', 'Arial', sans-serif; */
+    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+    /* font-family: Arial, Helvetica, sans-serif; */
+    /* background-color: #e0e0e0; */
 }
 body {
-    padding: 10px;
-    -webkit-app-region: drag;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(145deg, var(--nm-light-default), var(--nm-light-shadow));
+    width: 100vw;
+    height: 100vh;
 }
+#titlebar {
+    -webkit-app-region: drag;
+    width: 100%;
+    height: 31px;
+    background-color: #cacaca;
+}
+#content {
+    padding: 5px 50px;
+}
+
+
 h1 {
     min-height: 40px;
 }
@@ -34,7 +64,7 @@ button {
     border: none;
     padding: 10px;
     border-radius: 9999px;
-    transition: 200ms;
+    /* transition: 500ms; */
 }
 #btn_break {
     min-width: 125px;
@@ -50,10 +80,11 @@ button.btn_small {
                 inset -2px -2px 4px #ffffff;
 }
 .light_neumorph_out {
-    /* background: linear-gradient(145deg, #cacaca, #f0f0f0); */
-    background: linear-gradient(145deg, #f0f0f0, #cacaca);
+    /* background: linear-gradient(145deg, var(--nm-light-shadow), var(--nm-light-default)); */
+    background: linear-gradient(145deg, var(--nm-light-default), var(--nm-light-shadow));
     box-shadow:  2px 2px 4px #bebebe,
                 -2px -2px 4px #ffffff;
+    transition: --nm-light-default 500ms, --nm-light-shadow 500ms, 300ms;
 }
 .light_neumorph_out:hover {
     box-shadow:  3px 3px 6px #bebebe,
@@ -62,6 +93,13 @@ button.btn_small {
 .light_neumorph_out:active {
     box-shadow:  1px 1px 2px #bebebe,
                 -1px -1px 2px #ffffff;
+    /* background: linear-gradient(145deg, var(--nm-light-shadow), var(--nm-light-default)); */
+    --nm-light-default: #cacaca;
+    --nm-light-shadow: #f0f0f0;
+    /* --nm-light-default: var(--nm-light-shadow);
+    --nm-light-shadow: var(--nm-light-default); */
+    /* box-shadow: inset 2px 2px 4px #bebebe,
+                inset -2px -2px 4px #ffffff; */
 }
 .dark_neumorph_out {
     background: linear-gradient(145deg, #282828, #3a3a3a);
