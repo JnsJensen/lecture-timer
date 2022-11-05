@@ -2,6 +2,71 @@
 
 /* Add styles here to customize the appearance of your app */
 
-body {
+* {
     font-family: 'JetBrainsMono NF', 'Courier New', Courier, monospace;
+    background-color: #e0e0e0;
+}
+body {
+    padding: 10px;
+}
+h1 {
+    min-height: 40px;
+}
+
+#status_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#status_icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-color: limegreen;
+    transition: 250ms;
+}
+
+button {
+    border: none;
+    padding: 10px;
+    border-radius: 9999px;
+    transition: 200ms;
+}
+button:hover {
+    background-color: grey;
+    color: white;
+}
+button:active {
+    background: black;
+}
+#btn_break {
+    min-width: 125px;
+    min-height: 40px;
+    /* box-shadow:  2px 2px 4px 1px rgba(0, 0, 0, 0.2),
+                -2px -2px 4px 1px rgba(255, 255, 255, 0.8); */
+    background: linear-gradient(145deg, #cacaca, #f0f0f0);
+    box-shadow:  2px 2px 4px #bebebe,
+                -2px -2px 4px #ffffff;
+    /* border: solid 2px white; */
+}
+button.btn_small {
+    padding: 2.5px;
+    width: 25px;
+}
+
+input {
+    border: none;
+    padding: 2.5px;
+    border-radius: 9999px;
+    background-color: lightgray;
+    text-align: center;
+    width: 40px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

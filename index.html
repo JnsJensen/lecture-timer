@@ -8,45 +8,63 @@
     <title>Lecture Timer</title>
   </head>
   <body>
-    <h1 id="lecture">Lecture name</h1>
+    <h1 id="lecture"></h1>
+    <div id="status_container">
+      <div id="status_icon"></div>
+      <span id="lecture_status">Lecture in Progress</span>
+    </div>
+
     </br>
     <span id="day">Day</span>
     <span id="date">Date</span>
     <span id="time">Time</span>
+
     </br>
     <span>Time since lecture start: </span>
     <span id="timer">00:00:00</span>
     </br>
+
     </br>
     <span>Expected lecture runtime: </span>
     <span id="expected_time_modules">0</span>
     <span> x 45 m = </span>
     <span id="expected_time_total">0</span>
+
     </br>
     <span>Expected end: </span>
     <span id="expected_end">00:00:00</span>
+
     </br>
     <span>Countdown: </span>
     <span id="expected_countdown">00:00:00</span>
     </br>
+
     </br>
     <span>Slide total: </span>
-    <input type="number" id="total_slide" name="Total slides" min="0" value="0">
+    <input type="number" id="total_slide" name="Total slides" min="0" value="50">
+    <button class="btn_small" id="slide_increment">+</button>
+    <button class="btn_small" id="slide_decrement">-</button>
+
     </br>
     <span>Expected slide: </span>
     <span id="expected_slide">0</span>
+
     </br>
     <span>Actual slide: </span>
     <input type="number" id="actual_slide" name="Actual slides" min="0" value="0">
     </br>
+
     </br>
     <span>Predicted end: </span>
     <span id="predicted_end">00:00:00</span>
+
     </br>
     <span>Countdown: </span>
     <span id="predicted_countdown">00:00:00</span>
     </br>
-    
+
+    </br>
+    <button id="btn_break">Start Break</button>
 
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
