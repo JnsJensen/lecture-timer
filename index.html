@@ -21,22 +21,26 @@
       <span id="date">Date</span>
       <span id="time">Time</span>
   
-      
-    </br>
-    <span>Expected end: </span>
-    <span id="expected_end_date">00/00/0000</span>
-    <span id="expected_end">00:00:00</span>
-    
-    </br>
-    <span>Time since lecture start: </span>
-    <span id="timer">00:00:00</span>
-    </br>
+      </br>
+      <span>Start: </span>
+      <span id="start_date">00/00/0000</span>
+      <span id="start_time">00:00:00</span>
+
+      </br>
+      <span>Expected end: </span>
+      <span id="expected_end_date">00/00/0000</span>
+      <span id="expected_end">00:00:00</span>
+
+      </br>
+      <span>Time since lecture start: </span>
+      <span id="timer">00:00:00</span>
+      </br>
   
       </br>
-      <span>Expected lecture runtime: </span>
+      <span>No break runtime: </span>
       <span id="expected_time_modules">0</span>
       <span> x 45 m = </span>
-      <span id="expected_time_total">0</span>
+      <span id="expected_runtime_no_breaks">0</span>
   
       </br>
       <span>Lecture runtime: </span>
@@ -58,8 +62,27 @@
   
       </br>
       <span>Actual slide: </span>
-      <input type="number" id="actual_slide" class="light_neumorph_into" name="Actual slides" min="0" value="0">
+      <input type="number" id="actual_slide" class="light_neumorph_into" name="Actual slides" min="0" value="25">
+      <button class="btn_small light_neumorph_out" id="actual_slide_increment">+</button>
+      <button class="btn_small light_neumorph_out" id="actual_slide_decrement">-</button>
+  
       </br>
+      <span>Slide diff: </span>
+      <span id="diff_slide">0</span>
+      </br>
+  
+      </br>
+      <span>Expected slides/min: </span>
+      <span id="expected_slides_per_min">0</span>
+    
+      </br>
+      <span>Actual slides/min: </span>
+      <span id="actual_slides_per_min">0</span>
+      </br>
+  
+      </br>
+      <span>Predicted lecture runtime: </span>
+      <span id="predicted_runtime">00:00:00</span>
   
       </br>
       <span>Predicted end: </span>

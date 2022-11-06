@@ -47,6 +47,7 @@ class Day {
     }
 }
 
+const date_locale = "en-GB"
 
 const start_date = new Date()
 let start_of_day = new Date()
@@ -74,13 +75,13 @@ let break_counter = 0
 //     new Day("Saturday", [])
 // ]
 const schedule = [
-    new Day("Sunday", [new Lecture("Advanced Signal Processing", 8, 3, 4), new Lecture("Wireless Sensor Networks", 12, 3, 4)]),
+    new Day("Sunday", [new Lecture("Advanced Signal Processing", 1, 3, 4), new Lecture("Wireless Sensor Networks", 12, 3, 4)]),
     new Day("Monday", [new Lecture("Advanced Signal Processing", 10, 2, 4)]),
     new Day("Tuesday", [new Lecture("Advanced Signal Processing", 8, 3, 4), new Lecture("Wireless Sensor Networks", 12, 3, 4)]),
     new Day("Wednesday", [new Lecture("Requirements and Specification for Software Systems", 8, 2, 4)]),
     new Day("Thursday", [new Lecture("Advanced Signal Processing", 8, 13, 4)]),
     new Day("Friday", [new Lecture("Deep Learning", 20, 3, 4)]),
-    new Day("Saturday", [new Lecture("Advanced Signal Processing", 8, 4, 4), new Lecture("Wireless Sensor Networks", 21, 4, 4)])
+    new Day("Saturday", [new Lecture("Advanced Signal Processing", 8, 4, 4), new Lecture("Wireless Sensor Networks", 21, 4, 4), new Lecture("Advanced Signal Processing", 24, 4, 4)])
 ]
 
 const replace_text = (selector, text) => {
@@ -129,9 +130,40 @@ const hr_to_ms = (hr) => {
     return hr * 60 * 60 * 1000
 }
 
+const date_diff = (date1, date2) => {
+    return date1.getTime() - date2.getTime() - hr_to_ms(1)
+}
+const create_duration = (ms) => {
+    return new Date(ms - hr_to_ms(1))
+}
+
+// function to increment number in dom element
+function increment_number(selector, increment=1) {
+    const element = document.getElementById(selector)
+    if (element) {
+        let number = parseInt(element.value)
+        number += increment
+        element.value = number
+    }
+}
+
+// function to decrement number in dom element
+function decrement_number(id, decrement=1) {
+    const element = document.getElementById(id)
+    if (element) {
+        let number = parseInt(element.value)
+        if (number > 0) {
+            number -= decrement
+            element.value = number
+        }
+    }
+}
+
 let previous_lecture_idx = null
 let current_lecture_idx = null
 let current_lecture = null
+
+let start_of_lecture_date = new Date()
 
 const update = () => {
     const now_date = new Date()
@@ -139,8 +171,8 @@ const update = () => {
     const ms_from_start_of_day = now_time - start_of_day.getTime()
 
     // update dom element date with todays date
-    replace_text('date', now_date.toLocaleDateString("en-GB"))
-    replace_text('time', now_date.toTimeString().slice(0, 8))
+    replace_text('date', now_date.toLocaleDateString(date_locale))
+    replace_text('time', now_date.toLocaleTimeString(date_locale))
 
     // set text in the DOM id 'lecture' to the current lecture
     for (let i = 0; i < schedule[day].lectures.length; i++) {
@@ -161,32 +193,30 @@ const update = () => {
         if (previous_lecture_idx !== current_lecture_idx) {
             replace_text_animated('lecture', current_lecture.name, animation_delay)
             previous_lecture_idx = current_lecture_idx
+            start_of_lecture_date.setHours(current_lecture.start_time, 0, 0, 0)
+            replace_text('start_date', start_of_lecture_date.toLocaleDateString(date_locale))
+            replace_text('start_time', start_of_lecture_date.toLocaleTimeString(date_locale))
         }
 
-        let start_of_lecture_date = new Date()
-        start_of_lecture_date.setHours(current_lecture.start_time, 0, 0, 0)
-
         // split timestamp from timer time string
-        let timer_date = new Date(now_date - start_of_lecture_date - hr_to_ms(1))
+        let time_since_lecture_start_date = create_duration(now_date - start_of_lecture_date)
         // print hours, minutes and seconds in dom timer
-        replace_text('timer', timer_date.toTimeString().slice(0, 8))
+        replace_text('timer', time_since_lecture_start_date.toLocaleTimeString(date_locale))
 
         // update expected runtime
-        let lecture_runtime_no_break_ms = hr_to_ms((current_lecture.expected_runtime) * 0.75)
-        const expected_runtime_duration = new Date(lecture_runtime_no_break_ms)
+        const expected_runtime_duration = create_duration(hr_to_ms((current_lecture.expected_runtime) * 0.75))
         replace_text('expected_time_modules', current_lecture.expected_runtime)
-        replace_text('expected_time_total', expected_runtime_duration.toTimeString().slice(0, 8))
+        replace_text('expected_runtime_no_breaks', expected_runtime_duration.toLocaleTimeString(date_locale))
 
         // expected end time of lecture
         let expected_end_time_date = new Date()
         expected_end_time_date.setHours(current_lecture.start_time + current_lecture.expected_runtime, 0, 0, 0)
-        const expected_end_time_no_break_date = new Date(start_of_lecture_date.getTime() + lecture_runtime_no_break_ms)
 
         // console.log("expected_end_time_date: " + expected_end_time_date)
-        replace_text('expected_end', expected_end_time_date.toTimeString().slice(0, 8))
-        replace_text('expected_end_date', expected_end_time_date.toLocaleDateString("en-GB"))
+        replace_text('expected_end', expected_end_time_date.toLocaleTimeString(date_locale))
+        replace_text('expected_end_date', expected_end_time_date.toLocaleDateString(date_locale))
         // update lecture break time if on_break is true
-        if (on_break && break_counter >= 0) {
+        if (on_break) {
             // sum up duration of all breaks in the current lecture
             let break_duration = 0
             current_lecture.breaks.forEach(break_ => {
@@ -198,18 +228,55 @@ const update = () => {
             current_lecture.break_time = (current_break_duration + break_duration)
         }
 
-        // countdown from start of lecture to expected end time
-        const expected_countdown_date = new Date(expected_end_time_no_break_date - now_date + current_lecture.break_time)
-        replace_text('expected_countdown', expected_countdown_date.toTimeString().slice(0, 8))
+        // Lecture runtime
+        const lecture_runtime_duration = create_duration(now_date - start_of_lecture_date - current_lecture.break_time)
+        replace_text('lecture_runtime', lecture_runtime_duration.toLocaleTimeString(date_locale))
 
-        if (expected_countdown_date.getTime() > 0) {
-            replace_text('expected_countdown', expected_countdown_date.toTimeString().slice(0, 8))
+        // Lecture countdown
+        const expected_end_time_no_break_date = new Date(hr_to_ms(current_lecture.start_time) + expected_runtime_duration.getTime())
+        const lecture_countdown_duration = create_duration(expected_end_time_no_break_date - lecture_runtime_duration)
+        
+        // count up if were in overtime
+        var countdown_
+        if (lecture_countdown_duration.getTime() > 0) {
+            countdown_ = create_duration(lecture_countdown_duration.getTime())
         } else {
-            const inv_countdown = new Date(expected_countdown_date.getTime() * -1)
-            replace_text('expected_countdown', inv_countdown.toTimeString().slice(0, 8))
+            countdown_ = create_duration(lecture_countdown_duration.getTime() * -1)
         }
-        const expected_runtime_timer_date = new Date(expected_runtime_duration - expected_countdown_date)
-        replace_text('lecture_runtime', expected_runtime_timer_date.toTimeString().slice(0, 8))
+        replace_text('expected_countdown', countdown_.toLocaleTimeString(date_locale))
+
+        // calculate and update expected slide count
+        const total_slides = parseInt(document.getElementById('total_slide').value)
+        const slides_per_ms = total_slides / (expected_runtime_duration.getTime() + hr_to_ms(1))
+        replace_text('expected_slides_per_min', (slides_per_ms * 60 * 1000).toFixed(2))
+        const expected_slide = Math.round(slides_per_ms * (lecture_runtime_duration.getTime() + hr_to_ms(1)))
+        // console.log("expected_slide_count: " + expected_slide)
+        replace_text('expected_slide', expected_slide)
+
+        // calculate and update the difference in slide count
+        const actual_slide = parseInt(document.getElementById('actual_slide').value)
+        const diff_slide = actual_slide - expected_slide
+        replace_text('diff_slide', diff_slide)
+
+        // calculate the predicted lecture runtime
+        const actual_slides_per_ms = actual_slide / (lecture_runtime_duration.getTime() + hr_to_ms(1))
+        replace_text('actual_slides_per_min', (actual_slides_per_ms * 60 * 1000).toFixed(2))
+        const predicted_runtime_duration = create_duration(total_slides / actual_slides_per_ms)
+        replace_text('predicted_runtime', predicted_runtime_duration.toLocaleTimeString(date_locale))
+        // calculate and update the predicted end time
+        const predicted_end_time_date = new Date(start_of_lecture_date.getTime() + (predicted_runtime_duration.getTime()) + hr_to_ms(1))
+        replace_text('predicted_end', predicted_end_time_date.toLocaleTimeString(date_locale))
+
+        // calculate and update the predicted countdown
+        const predicted_countdown_duration = new Date(now_date - predicted_end_time_date)
+        // count up over total slide count
+        var countdown_
+        if (predicted_countdown_duration.getTime() > 0) {
+            countdown_ = create_duration(predicted_countdown_duration.getTime())
+        } else {
+            countdown_ = create_duration(predicted_countdown_duration.getTime() * -1)
+        }
+        replace_text('predicted_countdown', countdown_.toLocaleTimeString(date_locale))
     } else {
         replace_text('lecture', 'No lecture')
         replace_text('timer', '00:00:00')
@@ -250,25 +317,19 @@ window.addEventListener('DOMContentLoaded', () => {
     })
 
     add_event_listener('slide_increment', 'click', () => {
-        const element = document.getElementById('total_slide')
-        let total_slides = 0
-        if (element) {
-            total_slides = parseInt(element.value)
-            total_slides += 1
-            element.value = total_slides
-        }
+        increment_number('total_slide')
     })
 
     add_event_listener('slide_decrement', 'click', () => {
-        const element = document.getElementById('total_slide')
-        let total_slides = 0
-        if (element) {
-            total_slides = parseInt(element.value)
-            if (total_slides > 0) {
-                total_slides -= 1
-                element.value = total_slides
-            }
-        }
+        decrement_number('total_slide')
+    })
+
+    add_event_listener('actual_slide_increment', 'click', () => {
+        increment_number('actual_slide')
+    })
+
+    add_event_listener('actual_slide_decrement', 'click', () => {
+        decrement_number('actual_slide')
     })
     
     update()
