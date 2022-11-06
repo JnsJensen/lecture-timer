@@ -75,7 +75,7 @@ let break_counter = 0
 //     new Day("Saturday", [])
 // ]
 const schedule = [
-    new Day("Sunday", [new Lecture("Advanced Signal Processing", 1, 3, 4), new Lecture("Wireless Sensor Networks", 12, 3, 4)]),
+    new Day("Sunday", [new Lecture("Advanced Signal Processing", 1, 3, 4), new Lecture("Wireless Sensor Networks", 14, 3, 4)]),
     new Day("Monday", [new Lecture("Advanced Signal Processing", 10, 2, 4)]),
     new Day("Tuesday", [new Lecture("Advanced Signal Processing", 8, 3, 4), new Lecture("Wireless Sensor Networks", 12, 3, 4)]),
     new Day("Wednesday", [new Lecture("Requirements and Specification for Software Systems", 8, 2, 4)]),
@@ -137,6 +137,36 @@ const create_duration = (ms) => {
     return new Date(ms - hr_to_ms(1))
 }
 
+// status enum
+const Status = {
+    live: 0,
+    break: 1,
+    overtime: 2,
+    none: 3
+}
+
+// set status function
+const set_status = (status) => {
+    switch (status) {
+        case Status.live:
+            replace_text_animated('lecture_status', 'In Progress', animation_delay)
+            set_background_color('status_icon', 'limegreen')
+            break
+        case Status.break:
+            replace_text_animated('lecture_status', 'Break', animation_delay)
+            set_background_color('status_icon', 'yellow')
+            break
+        case Status.overtime:
+            replace_text_animated('lecture_status', 'Overtime', animation_delay)
+            set_background_color('status_icon', 'red')
+            break
+        case Status.none:
+            replace_text_animated('lecture_status', 'No Lecture', animation_delay)
+            set_background_color('status_icon', 'grey')
+            break
+    }
+}
+
 // function to increment number in dom element
 function increment_number(selector, increment=1) {
     const element = document.getElementById(selector)
@@ -196,6 +226,11 @@ const update = () => {
             start_of_lecture_date.setHours(current_lecture.start_time, 0, 0, 0)
             replace_text('start_date', start_of_lecture_date.toLocaleDateString(date_locale))
             replace_text('start_time', start_of_lecture_date.toLocaleTimeString(date_locale))
+            if (on_break) {
+                set_status(Status.break)
+            } else {
+                set_status(Status.live)
+            }
         }
 
         // split timestamp from timer time string
@@ -233,8 +268,8 @@ const update = () => {
         replace_text('lecture_runtime', lecture_runtime_duration.toLocaleTimeString(date_locale))
 
         // Lecture countdown
-        const expected_end_time_no_break_date = new Date(hr_to_ms(current_lecture.start_time) + expected_runtime_duration.getTime())
-        const lecture_countdown_duration = create_duration(expected_end_time_no_break_date - lecture_runtime_duration)
+        // const expected_end_time_no_break_date = new Date(hr_to_ms(current_lecture.start_time) + expected_runtime_duration.getTime())
+        const lecture_countdown_duration = create_duration(expected_runtime_duration - lecture_runtime_duration + hr_to_ms(1))
         
         // count up if were in overtime
         var countdown_
@@ -249,7 +284,8 @@ const update = () => {
         const total_slides = parseInt(document.getElementById('total_slide').value)
         const slides_per_ms = total_slides / (expected_runtime_duration.getTime() + hr_to_ms(1))
         replace_text('expected_slides_per_min', (slides_per_ms * 60 * 1000).toFixed(2))
-        const expected_slide = Math.round(slides_per_ms * (lecture_runtime_duration.getTime() + hr_to_ms(1)))
+        var expected_slide = Math.round(slides_per_ms * (lecture_runtime_duration.getTime() + hr_to_ms(1)))
+        expected_slide = expected_slide > total_slides ? total_slides : expected_slide
         // console.log("expected_slide_count: " + expected_slide)
         replace_text('expected_slide', expected_slide)
 
@@ -268,7 +304,7 @@ const update = () => {
         replace_text('predicted_end', predicted_end_time_date.toLocaleTimeString(date_locale))
 
         // calculate and update the predicted countdown
-        const predicted_countdown_duration = new Date(now_date - predicted_end_time_date)
+        const predicted_countdown_duration = new Date((now_date - predicted_end_time_date - current_lecture.break_time) / 0.75)
         // count up over total slide count
         var countdown_
         if (predicted_countdown_duration.getTime() > 0) {
@@ -301,8 +337,7 @@ window.addEventListener('DOMContentLoaded', () => {
             break_counter++
         } else {
             replace_text_animated('btn_break', 'Start Break', animation_delay)
-            replace_text_animated('lecture_status', 'Lecture in Progress', animation_delay)
-            set_background_color('status_icon', 'limegreen')
+            set_status(Status.live)
             
             // if current lecture is not null, add a break instance to the current lecture's break array
             const br = new Break(start_of_break_date, new Date())

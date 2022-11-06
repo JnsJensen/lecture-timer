@@ -10,11 +10,11 @@
   <body>
     <div id="titlebar"></div>
     <div id="content">
-      <h1 id="lecture"></h1>
+      <!-- <h1 id="lecture"></h1>
       <div id="status_container">
         <div id="status_icon"></div>
         <span id="lecture_status">Lecture in Progress</span>
-      </div>
+      </div> -->
   
       </br>
       <span id="day">Day</span>
@@ -88,13 +88,35 @@
       <span>Predicted end: </span>
       <span id="predicted_end">00:00:00</span>
   
-      </br>
+      <!-- </br>
       <span>Countdown: </span>
       <span id="predicted_countdown">00:00:00</span>
-      </br>
+      </br> -->
   
       </br>
       <button id="btn_break" class="light_neumorph_out">Start Break</button>
+
+      <div id="grid-container">
+        <div class="light_neumorph_out card s1x1">
+          <span id="lecture"></span>
+          <!-- <div id="status_container"> -->
+          <div id="status_icon"></div>
+          <span id="lecture_status">-</span>
+          <!-- </div> -->
+          <div>
+            <span id="predicted_countdown">00:00:00</span>
+          </div>
+        </div>
+        <div class="light_neumorph_out card s1x2">
+
+        </div>
+        <div class="light_neumorph_out card s1x2">
+
+        </div>
+        <div class="light_neumorph_out card s1x1">
+
+        </div>
+      </div>
   
       <!-- You can also require other files to run in this process -->
       <script src="./renderer.js"></script>
