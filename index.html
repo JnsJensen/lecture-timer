@@ -8,6 +8,28 @@
     <title>Lecture Timer</title>
   </head>
   <body>
+    <svg height="0" width="0" class="svg-clip" style="position:absolute">
+      <defs>
+           <clipPath id="clip" clipPathUnits="objectBoundingBox">
+             <!--<path d="M100.000,21.000 Q100,0 81.217,9.391L18.783,40.609 Q0,50 18.783,59.391L81.217,90.609 Q100,100 100.000,79.000Z" />-->
+             <!-- <path d="M1,.21 Q1,0 .81,.09L.187,.4 Q0,.5 .187,.59L.81,.90 Q1,1 1,.79Z" /> -->
+             <path d="M 90,50 10,90 10,10 z"/>
+          </clipPath>
+      </defs>
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" class="svg-clip" style="position:absolute">
+      <defs>
+        <clipPath id="clip2" clipPathUnits="objectBoundingBox">
+          <path d="M1,.21 Q1,0 .81,.09L.187,.4 Q0,.5 .187,.59L.81,.90 Q1,1 1,.79Z" />
+          <!-- <path d="M28.473720558371 9.1628314259158a11 11 0 0 1 19.052558883258 0l26.947441116742 46.674337148168a11 11 0 0 1 -9.5262794416288 16.5l-53.894882233485 0a11 11 0 0 1 -9.5262794416288 -16.5"></path> -->
+        </clipPath>
+      </defs>
+    </svg>
+    <!-- <filter id="round">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 19 -9" result="goo" />
+      <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+    </filter> -->
     <div id="titlebar"></div>
     <div id="content">
       <!-- <h1 id="lecture"></h1>
@@ -94,7 +116,7 @@
       </br> -->
   
       </br>
-      <button id="btn_break" class="light_neumorph_out">Start Break</button>
+      <i class="ic ic-pause"></i>
 
       <div id="grid-container">
         <div class="light_neumorph_out card s1x1">
@@ -111,7 +133,22 @@
 
         </div>
         <div class="light_neumorph_out card s1x2">
-
+          <table id="break_list">
+            <tr>
+              <td class="break_idx">1</td>
+              <td class="break_start">00:00</td>
+              <td class="break_duration">00:00:00</td>
+            </tr>
+          </table>
+          <div id="btn_row">
+            <button id="btn_break" class="light_neumorph_out round">
+              <i class="ic ic-pause"></i>
+            </button>
+            <button id="btn_break" class="light_neumorph_out round">
+              <i class="ic ic-play"></i>
+              <i class="triangle"></i>
+            </button>
+          </div>
         </div>
         <div class="light_neumorph_out card s1x1">
 

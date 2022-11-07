@@ -76,7 +76,7 @@ let break_counter = 0
 // ]
 const schedule = [
     new Day("Sunday", [new Lecture("Advanced Signal Processing", 1, 3, 4), new Lecture("Wireless Sensor Networks", 14, 3, 4)]),
-    new Day("Monday", [new Lecture("Advanced Signal Processing", 10, 2, 4)]),
+    new Day("Monday", [new Lecture("Advanced Signal Processing", 16, 2, 4)]),
     new Day("Tuesday", [new Lecture("Advanced Signal Processing", 8, 3, 4), new Lecture("Wireless Sensor Networks", 12, 3, 4)]),
     new Day("Wednesday", [new Lecture("Requirements and Specification for Software Systems", 8, 2, 4)]),
     new Day("Thursday", [new Lecture("Advanced Signal Processing", 8, 13, 4)]),
@@ -142,11 +142,16 @@ const Status = {
     live: 0,
     break: 1,
     overtime: 2,
-    none: 3
+    none: 3,
+    unknown: 4
 }
+
+var current_status = Status.unknown
 
 // set status function
 const set_status = (status) => {
+    if (status === current_status) return
+    current_status = status
     switch (status) {
         case Status.live:
             replace_text_animated('lecture_status', 'In Progress', animation_delay)
@@ -161,7 +166,8 @@ const set_status = (status) => {
             set_background_color('status_icon', 'red')
             break
         case Status.none:
-            replace_text_animated('lecture_status', 'No Lecture', animation_delay)
+            replace_text_animated('lecture', 'No Lecture', animation_delay)
+            replace_text_animated('lecture_status', '-', animation_delay)
             set_background_color('status_icon', 'grey')
             break
     }
@@ -314,11 +320,37 @@ const update = () => {
         }
         replace_text('predicted_countdown', countdown_.toLocaleTimeString(date_locale))
     } else {
-        replace_text('lecture', 'No lecture')
-        replace_text('timer', '00:00:00')
+        set_status(Status.none)
     }
 
     // console.log("on_break = " + on_break)
+}
+
+const start_break = () => {   
+    // replace_text_animated('btn_break', 'End Break', animation_delay)
+    if (current_status == Status.none) return
+    set_status(Status.break)
+
+    start_of_break_date = new Date()
+    break_counter++
+    on_break = true
+}
+
+const end_break = () => {
+    // replace_text_animated('btn_break', 'Start Break', animation_delay)
+    if (current_status == Status.none) return
+    set_status(Status.live)
+    
+    // if current lecture is not null, add a break instance to the current lecture's break array
+    const br = new Break(start_of_break_date, new Date())
+    // console.log("br: " + br.duration())
+    if (current_lecture !== null) {
+        current_lecture.breaks.push({
+            start_time: start_of_break_date,
+            end_time: new Date()
+        })
+    }
+    on_break = false
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -327,27 +359,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // add callback to break button 'btn_break' to start break
     add_event_listener('btn_break', 'click', () => {
-        on_break = !on_break
         if (on_break) {
-            replace_text_animated('btn_break', 'End Break', animation_delay)
-            replace_text_animated('lecture_status', 'On Break', animation_delay)
-            set_background_color('status_icon', 'crimson')
-
-            start_of_break_date = new Date()
-            break_counter++
+            end_break()
         } else {
-            replace_text_animated('btn_break', 'Start Break', animation_delay)
-            set_status(Status.live)
-            
-            // if current lecture is not null, add a break instance to the current lecture's break array
-            const br = new Break(start_of_break_date, new Date())
-            // console.log("br: " + br.duration())
-            if (current_lecture !== null) {
-                current_lecture.breaks.push({
-                    start_time: start_of_break_date,
-                    end_time: new Date()
-                })
-            }
+            start_break()
         }
     })
 
