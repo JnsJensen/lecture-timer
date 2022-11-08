@@ -32,6 +32,65 @@
     </filter> -->
     <div id="titlebar"></div>
     <div id="content">
+
+      <div id="grid-container">
+        <div class="light_neumorph_out card s1x1">
+          <span id="lecture"></span>
+          <!-- <div id="status_container"> -->
+          <div id="status_icon"></div>
+          <span id="lecture_status">-</span>
+          <!-- </div> -->
+          <div>
+            <span id="predicted_countdown">00:00:00</span>
+          </div>
+        </div>
+        <div class="light_neumorph_out card s1x1">
+          <div>
+            <span id="day" class="title-text">Day</span><br>
+            <span id="date">Date</span><br>
+            <span id="time">Time</span>
+          </div>
+          <div>
+            <span class="title-text">Total Runtime</span><br>
+            <span id="timer">00:00:00</span>
+          </div>
+        </div>
+        <div class="light_neumorph_out card s1x1">
+          <div>
+            <span class="title-text">Start</span><br>
+            <span id="start_date">00/00/0000</span><br>
+            <span id="start_time">00:00:00</span>
+          </div>
+          <div>
+            <span class="title-text">Expected End</span><br>
+            <span id="expected_end_date">00/00/0000</span><br>
+            <span id="expected_end">00:00:00</span>
+          </div>
+        </div>
+        <div class="light_neumorph_out card s1x2">
+        </div>
+        <div class="light_neumorph_out card s1x2">
+          <table id="break_list">
+            <tr>
+              <td class="break_idx">1</td>
+              <td class="break_start">00:00</td>
+              <td class="break_duration">00:00:00</td>
+            </tr>
+          </table>
+          <div id="btn_row">
+            <button id="btn_break" class="light_neumorph_out round">
+              <i class="ic ic-pause"></i>
+            </button>
+            <button id="btn_break" class="light_neumorph_out round">
+              <i class="ic ic-play"></i>
+              <i class="triangle"></i>
+            </button>
+          </div>
+        </div>
+        <div class="light_neumorph_out card s1x1">
+
+        </div>
+      </div>
       <!-- <h1 id="lecture"></h1>
       <div id="status_container">
         <div id="status_icon"></div>
@@ -39,23 +98,12 @@
       </div> -->
   
       </br>
-      <span id="day">Day</span>
-      <span id="date">Date</span>
-      <span id="time">Time</span>
   
       </br>
-      <span>Start: </span>
-      <span id="start_date">00/00/0000</span>
-      <span id="start_time">00:00:00</span>
 
       </br>
-      <span>Expected end: </span>
-      <span id="expected_end_date">00/00/0000</span>
-      <span id="expected_end">00:00:00</span>
 
       </br>
-      <span>Time since lecture start: </span>
-      <span id="timer">00:00:00</span>
       </br>
   
       </br>
@@ -117,43 +165,6 @@
   
       </br>
       <i class="ic ic-pause"></i>
-
-      <div id="grid-container">
-        <div class="light_neumorph_out card s1x1">
-          <span id="lecture"></span>
-          <!-- <div id="status_container"> -->
-          <div id="status_icon"></div>
-          <span id="lecture_status">-</span>
-          <!-- </div> -->
-          <div>
-            <span id="predicted_countdown">00:00:00</span>
-          </div>
-        </div>
-        <div class="light_neumorph_out card s1x2">
-
-        </div>
-        <div class="light_neumorph_out card s1x2">
-          <table id="break_list">
-            <tr>
-              <td class="break_idx">1</td>
-              <td class="break_start">00:00</td>
-              <td class="break_duration">00:00:00</td>
-            </tr>
-          </table>
-          <div id="btn_row">
-            <button id="btn_break" class="light_neumorph_out round">
-              <i class="ic ic-pause"></i>
-            </button>
-            <button id="btn_break" class="light_neumorph_out round">
-              <i class="ic ic-play"></i>
-              <i class="triangle"></i>
-            </button>
-          </div>
-        </div>
-        <div class="light_neumorph_out card s1x1">
-
-        </div>
-      </div>
   
       <!-- You can also require other files to run in this process -->
       <script src="./renderer.js"></script>
