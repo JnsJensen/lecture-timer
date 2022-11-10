@@ -278,3 +278,13 @@ input::-webkit-inner-spin-button {
 .title-text {
     font-weight: bold;
 }
+
+.tri {
+    width: 40px;
+    height: 40px;
+    border-radius: 40%;
+    background: #003BDE;
+    /* -webkit-clip-path: polygon(86.6% 50%, 0 0, 0 100%); */
+    /* clip-path: polygon(86.6% 50%, 0 0, 0 100%); */
+    clip-path: inset(45% 0% 33% 10% round 10px)
+}
