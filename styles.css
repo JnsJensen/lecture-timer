@@ -17,6 +17,7 @@
 :root {
     --card-dim: 175px;
     --card-margin: 15px;
+    --small-pad: 5px;
 }
 
 * {
@@ -147,11 +148,7 @@ button.light_neumorph_out:active {
 
 input {
     border: none;
-    padding: 2.5px;
-    border-radius: 9999px;
-    background-color: lightgray;
     text-align: center;
-    width: 40px;
 }
 
 input::-webkit-outer-spin-button,
@@ -287,4 +284,48 @@ input::-webkit-inner-spin-button {
     /* -webkit-clip-path: polygon(86.6% 50%, 0 0, 0 100%); */
     /* clip-path: polygon(86.6% 50%, 0 0, 0 100%); */
     clip-path: inset(45% 0% 33% 10% round 10px)
+}
+
+#slide_count_wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#slide_count_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 5px;
+}
+
+.slide_count_box {
+    width: 50%;
+    aspect-ratio: 1/1;
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.slide_count_box > input {
+    background: none;
+    height: 100%;
+    width: 100%;
+}
+.slide_count {
+    font-size: 20px;
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
+    /* top: calc(50% - var(--small-pad)); */
+    /* transform: translateY(-100%); */
+}
+.slide_count_title {
+    font-size: 12px;
+    font-style: italic;
+    color: #bebebe;
+    margin: var(--small-pad) 0 0 0;
 }
