@@ -18,6 +18,7 @@
     --card-dim: 175px;
     --card-margin: 15px;
     --small-pad: 5px;
+    --title-height: 31px;
 }
 
 * {
@@ -30,6 +31,7 @@
 }
 body {
     margin: 0;
+    /* padding: var(--title-height) 0 0 0; */
     padding: 0;
     background: linear-gradient(145deg, var(--nm-light-default), var(--nm-light-shadow));
     min-width: 100vw;
@@ -38,11 +40,16 @@ body {
 #titlebar {
     -webkit-app-region: drag;
     width: 100%;
-    height: 31px;
+    height: var(--title-height);
     background-color: #cacaca;
+    position: fixed;
+    top: 0;
 }
 #content {
     padding: 5px 50px;
+    overflow: auto;
+    margin-top: var(--title-height);
+    height: 800px;
 }
 
 h1 {
@@ -90,7 +97,7 @@ button.btn_small {
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
-    height: 800px;
+    height: 100%;
 }
 
 .s1x1 {
